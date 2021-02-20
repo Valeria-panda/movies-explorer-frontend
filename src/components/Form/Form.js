@@ -6,7 +6,7 @@ export default function Form(props){
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [user, setUser] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [userError, setUserError] = useState('');
@@ -34,19 +34,19 @@ export default function Form(props){
       if(evt.target.name === 'password'){
         setPassword(value);
      }
-     if(evt.target.name === 'username'){
-        setUsername(value);
+     if(evt.target.name === 'user'){
+        setUser(value);
      }
      validate();
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        if (!email && !password && !username) return;
-        handleSubmit(username, password, email);
+        if (!email && !password && !user) return;
+        props.onSubmit(user, password, email);
         setEmail('');
         setPassword('');
-        setUsername('');
+        setUser('');
     }
         return(
             <>       
@@ -59,20 +59,20 @@ export default function Form(props){
                     <Logo />
                     <h2 className='form__title'>{props.title}</h2>
                     {props.isRegister && (
-                        <label htmlFor="username" className="form__label">
+                        <label htmlFor="user" className="form__label">
                             Имя<input
                                 ref={userRef}
-                                id="username"
+                                id="user"
                                 type="text"
                                 className="form__input"
-                                name='username'
-                                value={username || ''}
+                                name='user'
+                                value={user || ''}
                                 minLength='6'
                                 maxLength='40'
                                 required
                                 onChange={handleChange}
                             />
-                            <span className={`popup__input-error ${!userValid && 'authorize__form-error_visible'}`}
+                            <span className={`popup__input-error ${!userValid &&'authorize__form-error_visible'}`}
                                         id='user-error'>
                                     {userError}
                             </span>

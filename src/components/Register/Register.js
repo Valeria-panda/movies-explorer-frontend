@@ -3,8 +3,8 @@ import Form from '../Form/Form';
 
 export default function Register(props){
 
-    function submitForm(password, email) {
-        props.onegister(password, email);
+    function submitForm(user, password, email) {
+        props.onRegister(user, password, email);
     }
     
     return(

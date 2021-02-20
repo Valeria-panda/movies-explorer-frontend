@@ -9,6 +9,13 @@ import Profile from '../Profile/Profile';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 export default function App(){
+
+    function handleLogin(){
+        console.log('ohuenno')
+    }
+    function handleRegister(){
+        console.log('fuck yeah')
+    }
    return(    
     <>
         <Switch>
@@ -17,12 +24,12 @@ export default function App(){
             </Route>
             <Route path='/signin'>
                 <Login 
-                    // onLogin={handleLogin}
+                    onLogin={handleLogin}
                 />
             </Route>
             <Route path='/signup'>
                 <Register 
-                    // onRegister={handleRegister}
+                    onRegister={handleRegister}
                 />
             </Route>
             <Route path='/updateProfile'>
