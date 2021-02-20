@@ -1,0 +1,13 @@
+.headerNavigationItem__link {
+  display: flex;
+  align-items: center;
+}
+.headerNavigationItem__link:first-child {
+  margin-right: 20px;
+}
+.headerNavigationItem__link:first-child {
+  margin-right: 20px;
+}
+.headerNavigationItem__link:nth-child(2) {
+  margin-right: 50px;
+}

@@ -1,0 +1,45 @@
+.movie__text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+.movie__text-title {
+  margin: 0 0 0 14px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+}
+.movie__text-time {
+  margin: 0 13px 0 0;
+  font-size: 11px;
+  line-height: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8b8b8b;
+  background-color: #2f2f2f;
+  padding: 3px 4px;
+  border-radius: 3px;
+}
+.movie__item {
+  position: relative;
+}
+.movie__savebutton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72px;
+  height: 21px;
+  background: #313131;
+  border-radius: 30px;
+  font-size: 10px;
+  line-height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  margin: 14px 0 0 274px ;
+}

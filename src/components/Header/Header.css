@@ -1,0 +1,33 @@
+.header {
+  max-width: 1140px;
+  margin: auto;
+  height: 74px;
+  box-sizing: content-box;
+  padding: 0 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__link {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+.header__link_type_signup {
+  margin-right: 30px;
+}
+.header__link_type_signin {
+  color: #000000;
+  background: #3ddc84;
+  border-radius: 3px;
+  padding: 8px 20px;
+}
