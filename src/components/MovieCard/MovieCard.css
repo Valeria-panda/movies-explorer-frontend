@@ -25,10 +25,14 @@
 .movie__item {
   position: relative;
 }
+.movie__item-img {
+  width: 100%;
+  object-fit: contain;
+}
 .movie__savebutton {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 14px;
+  right: 14px;
   width: 72px;
   height: 21px;
   background: #313131;
@@ -41,5 +45,27 @@
   outline: none;
   border: none;
   color: #ffffff;
-  margin: 14px 0 0 274px ;
+}
+
+@media (max-width: 768px) {
+  .movie__text-title {
+    margin: 0;
+  }
+  .movie__text {
+    margin-top: 25px;
+  }
+}
+@media (max-width: 320px) {
+  .movie__text-title {
+    margin: 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .movie__text {
+    margin-top: 16px;
+  }
+  .movie__savebutton {
+    top: 10px;
+    right: 10px;
+  }
 }

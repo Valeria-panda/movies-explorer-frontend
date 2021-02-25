@@ -1,6 +1,5 @@
 .portfolio__arrow {
   background-image: url(../../images/arrow.png);
-  background-image: url(../../images/arrow.png);
   background-size: auto;
   width: 29px;
   background-repeat: no-repeat;
@@ -45,4 +44,34 @@
   color: #8b8b8b;
   margin: 101px 0 50px 0;
   mix-blend-mode: normal;
+}
+@media (max-width: 768px) {
+  .portfolio__title {
+    margin: 91px 0 50px 0;
+  }
+  .portfolio__item-link {
+    font-size: 28px;
+  }
+  .portfolio__list {
+    padding: 0 0 90px 0;
+  }
+}
+
+@media (max-width: 320px) {
+  .portfolio__title {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 69px 0 40px 0;
+  }
+  .portfolio__item-link {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .portfolio__arrow {
+    height: 28px;
+    width: 21px;
+  }
+  .portfolio__list {
+    padding: 0 0 70px 0;
+  }
 }

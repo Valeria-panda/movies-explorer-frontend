@@ -12,6 +12,7 @@ import image8 from '../../images/movie8.png';
 import image9 from '../../images/movie9.png';
 import image10 from '../../images/movie10.png';
 import image11 from '../../images/movie11.png';
+import Button from '../Button/Button';
 
 export default function MovieCardList(){
     const movies = [
@@ -78,7 +79,8 @@ export default function MovieCardList(){
     ];
 
     return(
-        <ul className="movie__list-item container">
+        <>
+        <ul className="movie__list-item movie__container">
             {movies.map((movie, index) => (
                 <MovieCard 
                     key={index} 
@@ -90,5 +92,10 @@ export default function MovieCardList(){
                 />
             ))}
         </ul>
+        <div className="movie__container">
+            <Button className="movies__button">Ещё</Button>
+        </div>
+        
+        </>
     )
 }

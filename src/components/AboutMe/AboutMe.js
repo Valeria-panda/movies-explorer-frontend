@@ -4,7 +4,7 @@ import SectionHeader from '../SectionHeader/SectionHeader';
 
 export default function AboutMe(){
     return(
-        <section id="student" className="about-student container">
+        <section id="student" className="about-student about-student__container">
              <SectionHeader title='Студент' />
                 <div className="card">
                     <div className="card__info">
@@ -20,7 +20,7 @@ export default function AboutMe(){
                         </div>
                     </div>
                     <div>
-                        <img src={avatar} alt="фотография студента" />
+                        <img className="card__photo" src={avatar} alt="фотография студента" />
                     </div>
                 </div>
         </section>
