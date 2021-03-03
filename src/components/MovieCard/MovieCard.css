@@ -29,7 +29,7 @@
   width: 100%;
   object-fit: contain;
 }
-.movie__savebutton {
+.movie__button {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -45,8 +45,28 @@
   outline: none;
   border: none;
   color: #ffffff;
+  cursor: pointer;
 }
-
+.movie__button_type_save {
+  visibility: hidden;
+}
+.movie__item:hover .movie__button_type_save {
+  visibility: visible;
+}
+.movie__saved-icon {
+  width: 21px;
+  height: 21px;
+  background: #ee3465 url(../../images/savedicon.png) no-repeat center;
+}
+.movie__button_type_remove {
+  width: 21px;
+  height: 21px;
+  background: #313131 url(../../images/removeicon.png) no-repeat center;
+  visibility: hidden;
+}
+.movie__item:hover .movie__button_type_remove {
+  visibility: visible;
+}
 @media (max-width: 768px) {
   .movie__text-title {
     margin: 0;

@@ -6,13 +6,13 @@ import Portfolio from '../Portfolio/Portfolio';
 import Techs from '../Techs/Techs';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import HeaderNavigationAuth from '../HeaderNavigationAuth/HeaderNavigationAuth';
+import AuthNav from '../AuthNav/AuthNav';
 
 export default function Main(){
     return(
         <>
             <Header>
-                <HeaderNavigationAuth />
+                <AuthNav />
             </Header>
             <Promo />
             <AboutProject />

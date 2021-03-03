@@ -1,0 +1,110 @@
+.headerNavigationMobile {
+  display: flex;
+  z-index: 1;
+}
+
+.headerNavigationMobile__label {
+  width: 28px;
+  height: 23px;
+  position: relative;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.headerNavigationMobile__checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.headerNavigationMobile__button,
+.headerNavigationMobile__button::before,
+.headerNavigationMobile__button::after {
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #fff;
+  transition-duration: .4s
+}
+
+.headerNavigationMobile__button::before {
+  content: '';
+  top: -7px;
+}
+.headerNavigationMobile__button::after {
+  content: '';
+  top: 7px;
+}
+
+.headerNavigationMobile__checkbox:checked ~ .headerNavigationMobile__label > .headerNavigationMobile__button {
+  transform: rotate(45deg);
+}
+.headerNavigationMobile__checkbox:checked ~ .headerNavigationMobile__label > .headerNavigationMobile__button::before {
+  top: 0;
+  transform: rotate(0);
+}
+.headerNavigationMobile__checkbox:checked ~ .headerNavigationMobile__label > .headerNavigationMobile__button::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.headerNavigationMobile__nav-container {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, .3);
+  display: flex;
+  justify-content: flex-end;
+  transition-duration: .4s
+}
+
+.headerNavigationMobile__checkbox:checked ~ .headerNavigationMobile__nav-container {
+  visibility: visible;
+  right: 0;
+}
+
+.headerNavigationMobile__nav {
+  width: 67.7%;
+  background: #202020;
+  padding: 159px 90px 0 92px;
+  box-sizing: border-box;
+}
+
+.headerNavigationMobile__nav-list {
+  flex-direction: column;
+}
+.headerNavigationMobile__nav-link_profile{
+  padding-top: 621px;
+}
+.headerNavigationMobile__nav-list-item {
+  margin: 0 0 22px;
+}
+
+.headerNavigationMobile__nav-link {
+  font-size: 18px;
+  line-height: 22px;
+  padding: 0 0 4px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.headerNavigationMobile__nav-link_active {
+  border-bottom: #fff 2px solid;
+}
+
+@media (max-width:320px){
+  .headerNavigationMobile__nav {
+    width: 100%;
+    padding: 144px 0px 0 0px;
+  }
+  .headerNavigationMobile__nav-link_profile{
+    padding-top: 444px;
+  }
+}

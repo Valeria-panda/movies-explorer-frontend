@@ -8,18 +8,16 @@ export default function AboutMe(){
              <SectionHeader title='Студент' />
                 <div className="card">
                     <div className="card__info">
-                        <h5 className="card__title">Виталий</h5>
-                        <p className="card__subtitle">Фронтенд-разработчик, 30 лет</p>
-                        <p className="card__text">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
-                            и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в 
-                            компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами 
-                            и ушёл с постоянной работы.</p>
+                        <h5 className="card__title">Валерия</h5>
+                        <p className="card__subtitle">Фронтенд-разработчик, 25 лет</p>
+                        <p className="card__text">Я родилась и живу в Уфе, по образованию инженер-технолог нефтегаовых производств.
+                        Занимаюсь фотографией и скалолазанием. Учусь программированию</p>
                         <div>
                             <a className="card__link" href="https://www.facebook.com/">Facebook</a>
                             <a className="card__link" href="https://github.com/Valeria-panda/">Github</a>
                         </div>
                     </div>
-                    <div>
+                    <div className="card__photo-container">
                         <img className="card__photo" src={avatar} alt="фотография студента" />
                     </div>
                 </div>

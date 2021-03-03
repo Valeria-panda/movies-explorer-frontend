@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Main from '../Main/Main';
 import Login from '../Login/Login';
-import Footer from '../Footer/Footer';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+
 export default function App(){
 
    return(    

@@ -17,7 +17,7 @@
     grid-row-gap: 45px;
   }
 }
-@media (max-width: 320px){
+@media (max-width: 320px) {
   .movie__container {
     padding: 0 10px;
   }

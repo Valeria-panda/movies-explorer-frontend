@@ -1,46 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
-import HeaderNavigationItem from '../HeaderNavigationItem/HeaderNavigationItem';
-import Header from '../Header/Header';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 // хедер основной для зареганных пользователей со страницы фильмы и сохраненные фильмы
-export default function HeaderNavigationMain() {
-
-
- const [windowWidth, setWindowWidth] = useState(window.innerWidth);
- const [isMenuOpen, setIsMenuOpen] = useState(false);
- 
-function updateWindowSize() {
-    setWindowWidth(window.innerWidth);
-    window.innerWidth <= 768 ? setIsMenuOpen(false) : setIsMenuOpen(true);
-}
-
-const headerStyle = `${(windowWidth <= 768) ? 'header__panel_mobile' : ''}
-${((windowWidth <= 768) && (!isMenuOpen)) ? 'hidden' : ''}`
-useEffect(() => {
-    window.addEventListener('resize', updateWindowSize);
-
-    return () => {
-      window.removeEventListener('resize', updateWindowSize);
-    }
-  });
-
-  function handleButtonClick() {
-    setIsMenuOpen(!isMenuOpen);
-  }
+export default function HeaderNavigationMain(props) {
 
   return (
     <>
-        <Header className={headerStyle}>
-            <div className='header__panel'>
-                <HeaderNavigationItem  path ='/movies' title="фильмы" className='headerNavigationItem__link' />
-                <HeaderNavigationItem  path ='/savedmovies' title="Сохраненные фильмы" className='headerNavigationItem__link'/>
-                <HeaderNavigationItem  path ='/updateprofile' title="Аккаунт"  className='headerNavigationItem__link'>
-                    <div className='headerNavigationMain__logo headerNavigationMain__logo_type_profile'></div>
-                </HeaderNavigationItem>
-               
-            </div>
-        </Header>
+        <nav className={`header__panel ${props.mod}`}>
+          <ul className={`header__list ${props.navListMod}`}>
+          {props.children}
+            <li className={`header__item header__item_type_movies ${props.navListItemMod}`}>
+              <NavLink to="/movies" className={`header__link ${props.navLinkMod}`} activeClassName="header__link_active">Фильмы</NavLink>
+            </li>
+            <li className={`header__item header__item_type_save ${props.navListItemMod}`}>
+              <NavLink to='/savedmovies' className={`header__link ${props.navLinkMod}`} activeClassName="headerNavigationMobile-menu__nav-link_active">Сохраненные фильмы</NavLink>
+            </li>
+            <li className={`header__item header__item_type_profile ${props.navLinkProfile}`}>
+              <NavLink to='/updateprofile' className="header__link header__link_type_profile">Аккаунт</NavLink>
+              <div className='header__link header__link_type_logo'></div>
+            </li>
+        
+          </ul>
+        </nav>
+      
     </> 
         
   );
 }
+
+
+
+
