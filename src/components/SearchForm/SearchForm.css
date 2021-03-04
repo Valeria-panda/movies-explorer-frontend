@@ -8,7 +8,9 @@
   align-items: center;
   margin-bottom: 28px;
 }
-
+.search-form__text:focus{
+  border: 1px solid #ffffff;
+}
 .search-form__text {
   width: 100%;
   margin: 0;

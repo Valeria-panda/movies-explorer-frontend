@@ -98,7 +98,11 @@
 .headerNavigationMobile__nav-link_active {
   border-bottom: #fff 2px solid;
 }
-
+@media (max-width:544px){
+  .headerNavigationMobile__nav {
+    padding: 159px 0px 0 0px;
+  }
+}
 @media (max-width:320px){
   .headerNavigationMobile__nav {
     width: 100%;
