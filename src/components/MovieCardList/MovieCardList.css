@@ -1,0 +1,29 @@
+.movie__container {
+  padding: 0 70px;
+}
+.movie__list-item {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+  grid-column-gap: 30px;
+  grid-row-gap: 59px;
+  margin: 70px 0 0 0;
+  list-style: none;
+}
+@media (max-width: 768px) {
+  .movie__container {
+    padding: 0 30px;
+  }
+  .movie__list-item {
+    grid-row-gap: 45px;
+  }
+}
+@media (max-width: 320px) {
+  .movie__container {
+    padding: 0 10px;
+  }
+  .movie__list-item {
+    grid-column-gap: 0;
+    grid-row-gap: 36px;
+    margin: 40px 0 0 0;
+  }
+}

@@ -1,0 +1,45 @@
+.filter-button__input {
+  appearance: none;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: #dedede;
+  border: 0;
+  border-radius: 16px;
+  outline: none;
+  cursor: pointer;
+  margin-right: 12px;
+}
+.filter-button__container {
+  display: flex;
+  align-items: center;
+}
+
+.filter-button__input:checked {
+  background-color: #3ddc84;
+}
+
+.filter-button__input::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: #a0a0a0;
+  border-radius: 50%;
+  transform: translateX(0);
+  transition: 0.3s;
+}
+
+.filter-button__input:checked::after {
+  transform: translateX(100%);
+  background-color: #fff;
+}
+
+.filter-button__text {
+  color: #fff;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: normal;
+}

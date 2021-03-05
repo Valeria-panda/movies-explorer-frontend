@@ -1,0 +1,22 @@
+.section__item {
+  background-color: #303030;
+  border-radius: 10px;
+  padding: 10.5px 17px;
+  text-align: center;
+}
+.section__link {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+  color: #ffffff;
+}
+@media (max-width: 600px) and (min-width: 320px) {
+  .section__link {
+    font-size: 10px;
+    line-height: 160%;
+  }
+  .section__item {
+    padding: 5px 15px;
+  }
+}

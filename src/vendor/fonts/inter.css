@@ -1,0 +1,17 @@
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    src:    url('Interregular.ttf') format("ttf"),
+            url('Interregular.woff') format("woff"),
+            url('Interregular.woff2') format("woff2");
+}
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    src:    url('Intermedium.ttf') format("ttf"),
+            url('Intermedium.woff') format("woff"),
+            url('Intermedium.woff2') format("woff2");
+}

@@ -1,0 +1,91 @@
+.movie__text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+.movie__text-title {
+  margin: 0 0 0 14px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+}
+.movie__text-time {
+  margin: 0 13px 0 0;
+  font-size: 11px;
+  line-height: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8b8b8b;
+  background-color: #2f2f2f;
+  padding: 3px 4px;
+  border-radius: 3px;
+}
+.movie__item {
+  position: relative;
+}
+.movie__item-img {
+  width: 100%;
+  object-fit: contain;
+}
+.movie__button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 72px;
+  height: 21px;
+  background: #313131;
+  border-radius: 30px;
+  font-size: 10px;
+  line-height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+.movie__button_type_save {
+  visibility: hidden;
+}
+.movie__item:hover .movie__button_type_save {
+  visibility: visible;
+}
+.movie__saved-icon {
+  width: 21px;
+  height: 21px;
+  background: #ee3465 url(../../images/savedicon.png) no-repeat center;
+}
+.movie__button_type_remove {
+  width: 21px;
+  height: 21px;
+  background: #313131 url(../../images/removeicon.png) no-repeat center;
+  visibility: hidden;
+}
+.movie__item:hover .movie__button_type_remove {
+  visibility: visible;
+}
+@media (max-width: 768px) {
+  .movie__text-title {
+    margin: 0;
+  }
+  .movie__text {
+    margin-top: 25px;
+  }
+}
+@media (max-width: 320px) {
+  .movie__text-title {
+    margin: 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .movie__text {
+    margin-top: 16px;
+  }
+  .movie__savebutton {
+    top: 10px;
+    right: 10px;
+  }
+}
