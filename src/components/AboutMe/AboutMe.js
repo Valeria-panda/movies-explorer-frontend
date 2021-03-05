@@ -1,11 +1,11 @@
 import React from 'react';
 import avatar from '../../images/portfolio.png';
-import SectionHeader from '../SectionHeader/SectionHeader';
+import Section from '../Section/Section';
 
 export default function AboutMe(){
     return(
         <section id="student" className="about-student about-student__container">
-             <SectionHeader title='Студент' />
+             <Section title='Студент' />
                 <div className="card">
                     <div className="card__info">
                         <h5 className="card__title">Валерия</h5>

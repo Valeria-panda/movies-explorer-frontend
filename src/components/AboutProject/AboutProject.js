@@ -1,10 +1,10 @@
 import React from 'react';
-import SectionHeader from '../SectionHeader/SectionHeader';
+import Section from '../Section/Section';
 
 export default function AboutProject(){
     return(
         <section id="project" className="about-project container">
-            <SectionHeader title='О проекте' />
+            <Section title='О проекте' />
             <div className="about-project__container">
                 <div className="about-project__description">
                     <h5 className="about-project__description-title">Дипломный проект включал 5 этапов</h5>
