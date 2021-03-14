@@ -122,7 +122,11 @@
 .form__link_type_update {
   color: #ee3465;
 }
-
+.form__button_type_inactive{
+  opacity: .2;
+  pointer-events: none;
+  user-select: none;
+}
 @media (max-width: 320px) {
   .form {
     max-width: 260px;

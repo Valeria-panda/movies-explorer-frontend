@@ -3,12 +3,13 @@ import { Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import Main from '../Main/Main';
 import Login from '../Login/Login';
+import Header from '../Header/Header';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
-import { api } from '../utils/MainApi.js';
+import { api } from '../../utils/MainApi.js';
 import Footer from '../Footer/Footer';
 
 export default function App(){
@@ -17,7 +18,7 @@ export default function App(){
     const [loggedIn, setLoggedIn] = React.useState(false);
     const history = useHistory();
     let location = useLocation();
-   
+
     //проверка токена
     React.useEffect(() => {
       const token = localStorage.getItem('token');
@@ -36,7 +37,7 @@ export default function App(){
           });
       }
     }, [])
-  
+
     //регистрация
     function onRegister({name, email, password}) {
       if (!name || !email || !password) {
@@ -52,7 +53,7 @@ export default function App(){
           console.log(err);
         })
     }
-  
+
     //авторизация
     function login(email, password) {
       api.login(email, password)
@@ -68,17 +69,17 @@ export default function App(){
         console.log(err);
       })
     }
-  
+
     function onLogin({email, password}) {
       if (!email || !password) {
         return;
       }
       login(email, password);
     }
-  
+
     function getCurrentUser() {
       const token = localStorage.getItem('token');
-      api.getCurrentUser(token)
+      api.getUserInfo(token)
         .then((res) => {
           if (res) {
             setCurrentUser(res)
@@ -102,28 +103,28 @@ export default function App(){
         history.push('/');
     }
 
-   return(    
+   return(
     <CurrentUserContext.Provider value={currentUser}>
-      
-    { (loggedIn || location.pathname === '/') && <Header loggedIn={loggedIn}/> }
+
+    { (loggedIn || location.pathname === '/') }
 
     <Switch>
             <Route exact path='/'>
                 <Main />
             </Route>
             <Route path='/signin'>
-                <Login 
+                <Login
                     onLogin={onLogin}
                 />
             </Route>
             <Route path='/signup'>
-                <Register 
+                <Register
                     onRegister={onRegister}
                 />
             </Route>
             <Route path='/updateProfile'>
-                <Profile 
-                    updProfile={updProfile} 
+                <Profile
+                    updProfile={updProfile}
                     handleSignOutt={signOut}
                 />
             </Route>
@@ -136,11 +137,11 @@ export default function App(){
             <Route path='/notfound'>
                 <NotFound />
             </Route>
-        </Switch>        
-       
-        { (loggedIn || location.pathname === '/') && <Footer /> }
+        </Switch>
+
+        { (loggedIn || location.pathname === '/') }
       </CurrentUserContext.Provider>
-    
-   )  
+
+   )
 }
 
