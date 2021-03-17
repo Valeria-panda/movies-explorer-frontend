@@ -3,22 +3,21 @@ import HeaderNavigationMobile from '../HeaderNavigationMobile/HeaderNavigationMo
 import HeaderNavigationMain  from '../HeaderNavigationMain/HeaderNavigationMain';
 
 export default function NavBar(){
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    const updateWindowSize = () => setWindowWidth(window.innerWidth);
+  const updateWindowSize = () => setWindowWidth(window.innerWidth);
 
-    useEffect(() => {
-        window.addEventListener('resize', updateWindowSize);
-        return () => window.removeEventListener('resize', updateWindowSize);
-    });
+  useEffect(() => {
+      window.addEventListener('resize', updateWindowSize);
+      return () => window.removeEventListener('resize', updateWindowSize);
+  });
 
-
-    return(
-        <>
-            {
-            (windowWidth > 768) ? <HeaderNavigationMain /> : <HeaderNavigationMobile/>
-            }
-        </>
-    )
+  return(
+    <>
+      {
+        (windowWidth > 768) ? <HeaderNavigationMain /> : <HeaderNavigationMobile/>
+      }
+    </>
+  )
 }
 

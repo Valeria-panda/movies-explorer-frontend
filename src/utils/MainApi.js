@@ -1,70 +1,70 @@
-import { apiOptions } from './constant';
+import requestApi from './requestApi';
 
-export default class MainApi {
-    constructor(options) {
-        this._baseUrl = options.baseUrl;
-        this._headers = options.headers;
-        this._credentials = options.credentials;
-    }
-    //Отправить запрос
-    _sendRequest(path, parameters) {
-        return fetch(`${this._url}${path}`, parameters).then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status);
-        });
-    }
-     // регистрация
-    register(username, email, password) {
-        return this._sendRequest(fetch(`${this._baseUrl}/signup`, {  
-            method: 'POST',
-            headers: this._headers,
-            credentials: this._credentials,
-            body: JSON.stringify({
-            "username": username,
-            "email": email,
-            "password": password
-            })
-        }
-        ))
-    }
-    //авторизация
-    login(email, password) {
-        return this._sendRequest(fetch(`${this._baseUrl}/signin`, {  
-            method: 'POST',
-            headers: this._headers,
-            credentials: this._credentials,
-            body: JSON.stringify({
-            "email": email,
-            "password": password
-            })
-        }
-        ))
-    }
+export const BASE_URL = 'https://api.movie.students.nomoredomains.rocks';
+// export const BASE_URL = 'http://localhost:3000';
 
-    //провека токена
-    checkToken(token) {
-        return this._getResponseData(fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            headers: {
-                ...this._headers,
-                "Authorization" : `Bearer ${token}`
-            }
-        }
-        ))
-    }
+export const headers = (token = '') => ({
+  'Content-Type': 'application/json; charset=utf-8',
+  'Authorization': `Bearer ${token}`,
+});
 
-    //Получить данные пользователя
-    getUserInfo(token) {
-        return this._sendRequest(`users/me`, {
-            headers: {
-                ...this._headers,
-                authorization: `Bearer ${token}`
-            },
-        });
-    }
-
+export function register({ name, email, password }) {
+  return requestApi({
+    BASE_URL, path: 'signup', method: 'POST', headers: headers(), body: { name, email, password },
+  });
 }
 
-export const api = new MainApi(apiOptions);
+export function login({ email, password }) {
+  return requestApi({
+    BASE_URL, path: 'signin', method: 'POST', headers: headers(), body: { email, password },
+  });
+}
+
+export function getUserData(token) {
+  return requestApi({
+    BASE_URL, path: 'users/me', headers: headers(token),
+  });
+}
+
+export function updateProfile({ name, email }, token) {
+  return requestApi({
+    BASE_URL, path: 'users/me', method: 'PATCH', headers: headers(token), body: { name, email },
+  });
+}
+
+export function getMovies(token) {
+  return requestApi({
+    BASE_URL, path: 'movies', headers: headers(token),
+  });
+}
+
+export function saveMovie({
+  country, director, duration, year, description,
+  image, trailer, thumbnail, nameRU, nameEN, movieId,
+}, token) {
+  return requestApi({
+    BASE_URL,
+    path: 'movies',
+    method: 'POST',
+    headers: headers(token),
+    body: {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailer,
+      thumbnail,
+      nameRU,
+      nameEN,
+      movieId,
+    },
+  });
+}
+
+export function removeMovie({ movieId }, token) {
+  return requestApi({
+    BASE_URL, path: `movies/${movieId}`, method: 'DELETE', headers: headers(token),
+  });
+}

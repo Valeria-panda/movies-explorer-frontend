@@ -4,17 +4,23 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import MovieCardList from '../MovieCardList/MovieCardList';
-import { defaultMoviesShort } from '../Movies/Movies';
 
-export default function SavedMovies(){
-    return(
-        <>
-            <Header>
-                <NavBar/>
-            </Header>
-            <SearchForm name='searchform' />
-            <MovieCardList movies={defaultMoviesShort} isRemovable />
-            <Footer />
-        </>
-    )
+export default function SavedMovies({
+  movies, searchMovies, removeMovie, savedMoviesIds, isLoading,
+}){
+  return(
+    <>
+      <Header>
+        <NavBar/>
+      </Header>
+      <SearchForm name='searchform' searchMovies={searchMovies} />
+      <MovieCardList
+        movies={movies}
+        isLoading={isLoading}
+        removeMovie={removeMovie}
+        savedMoviesIds={savedMoviesIds}
+      />
+      <Footer />
+    </>
+  )
 }

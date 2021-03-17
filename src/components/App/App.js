@@ -1,147 +1,303 @@
-import React from 'react';
-import { Route, Switch, useHistory, useLocation} from 'react-router-dom';
-import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Main from '../Main/Main';
 import Login from '../Login/Login';
-import Header from '../Header/Header';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
-import { api } from '../../utils/MainApi.js';
-import Footer from '../Footer/Footer';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import * as api from '../../utils/MainApi';
+import * as moviesApi from '../../utils/MoviesApi';
+import { successMessage, fetchErrorMessage } from '../../utils/constants';
+import { searchMovie, toFormatMovie } from '../../utils/utils';
+import resolveImg from '../../images/resolve.svg';
+import rejectImg from '../../images/reject.svg';
 
 export default function App(){
+  const history = useHistory();
 
-    const [currentUser, setCurrentUser] = React.useState({});
-    const [loggedIn, setLoggedIn] = React.useState(false);
-    const history = useHistory();
-    let location = useLocation();
+  //стейт данных юзера
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
+  const [token, setToken] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    //проверка токена
-    React.useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        api.checkToken(token)
-          .then((res) => {
-            if (res) {
-              setLoggedIn(true);
-              getCurrentUser();
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            localStorage.removeItem('token')
-            history.push('/');
-          });
-      }
-    }, [])
+  //стейт состояния запроса
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
 
-    //регистрация
-    function onRegister({name, email, password}) {
-      if (!name || !email || !password) {
-        return;
-      }
-      api.register(name, email, password)
+  //стейт информационного попапа
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
+
+  //стейт фильмов
+  const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMoviesIds, setSavedMoviesIds] = useState([]);
+  const [searchedSavedMovies, setSearchedSavedMovies] = useState([]);
+
+  //показ ошибки запроса
+  const showError = (msg) => {
+    setMessage(msg);
+    setImage(rejectImg);
+    setIsInfoTooltipOpen(true);
+  };
+
+  //показ успешного запроса
+  const showSuccess = () => {
+    setMessage(successMessage);
+    setImage(resolveImg);
+    setIsInfoTooltipOpen(true);
+  };
+
+  //проверка токена
+  useEffect(() => {
+    const jwt = localStorage.getItem('token');
+
+    if (jwt) {
+      setToken(jwt);
+
+      api.getUserData(jwt)
         .then((res) => {
-          if (res) {
-            login(email, password);
-          }
+          setCurrentUser(res);
+          setIsLoggedIn(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
-        })
+          localStorage.removeItem('token')
+        });
     }
+    setIsTokenChecked(true);
+  }, [])
 
-    //авторизация
-    function login(email, password) {
-      api.login(email, password)
+  //регистрация
+  function onRegister({name, email, password}) {
+    if (!name || !email || !password) {
+      return;
+    }
+    api.register({name, email, password})
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          setLoggedIn(true);
-          getCurrentUser();
-          history.push('/movies');
+        if (res) {
+          login({email, password});
         }
       })
       .catch(err => {
-        console.log(err);
+        showError(err.message);
+      });
+  }
+
+  //авторизация
+  function login({email, password}) {
+    api.login({email, password})
+    .then((res) => {
+      localStorage.setItem('token', res.token);
+
+      setToken(res.token);
+      setIsLoggedIn(true);
+      setCurrentUser({ name: res.name, email: res.email });
+
+      history.push('/movies');
+    })
+    .catch(err => {
+      showError(err.message);
+    });
+  }
+
+  function onLogin({email, password}) {
+    if (!email || !password) {
+      return;
+    }
+    login({email, password});
+  }
+
+  /* редактирование профиля */
+  function updProfile(data) {
+    api.updateProfile(data, token)
+      .then((res) => {
+        setCurrentUser(res);
+        showSuccess();
       })
-    }
+      .catch(err => {
+        showError(err.message);
+      });
+  }
 
-    function onLogin({email, password}) {
-      if (!email || !password) {
-        return;
-      }
-      login(email, password);
-    }
+  //выход
+  function signOut() {
+    setIsLoggedIn(false);
+    setCurrentUser({});
+    setIsFetched(false);
+    setMovies([]);
+    localStorage.clear();
+    history.push('/');
+  }
 
-    function getCurrentUser() {
-      const token = localStorage.getItem('token');
-      api.getUserInfo(token)
+  //поиск фильмов и сохранение в хранилище
+  function searchMovies(keyword, isIncludesShort) {
+    setIsFetched(true);
+    setIsLoading(true);
+    let localMovies = localStorage.getItem('movies');
+
+    if (!localMovies) {
+      moviesApi.getMovies()
         .then((res) => {
-          if (res) {
-            setCurrentUser(res)
-          }
+          const formattedMovies = toFormatMovie(res, moviesApi.BASE_URL);
+
+          localStorage.setItem('movies', JSON.stringify(formattedMovies));
+          localMovies = formattedMovies;
+
+          const filteredMovies = searchMovie(localMovies, keyword, isIncludesShort);
+          setMovies(filteredMovies);
+          localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
         })
         .catch(err => {
-          console.log(err);
+          showError(fetchErrorMessage);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      localMovies = JSON.parse(localMovies);
+
+      const filteredMovies = searchMovie(localMovies, keyword, isIncludesShort);
+      setMovies(filteredMovies);
+      localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
+      setIsLoading(false);
+    }
+  }
+
+  //установка найденных последними фильмов в стейт
+  useEffect(() => {
+    const localMovies = localStorage.getItem('searchedMovies');
+
+    if (isLoggedIn && localMovies) {
+      setIsFetched(true);
+      setMovies(JSON.parse(localMovies));
+    }
+  }, [isLoggedIn]);
+
+  //получение сохраненных юзером фильмов
+  useEffect(() => {
+    function getSavedMovies() {
+      api.getMovies(token)
+        .then((res) => {
+          const savedMoviesIds = res.map((movie) => movie.movieId);
+
+          setSavedMovies(res);
+          setSavedMoviesIds(savedMoviesIds);
+          setSearchedSavedMovies(res);
+        })
+        .catch(err => {
+          showError(err.message);
         });
     }
 
-    /* редактирование профиля */
-    function updProfile() {
-        const token = localStorage.getItem('token');
+    if (isLoggedIn) {
+      getSavedMovies();
     }
+  }, [isLoggedIn, token]);
 
-    /* выход */
-    function signOut() {
-        localStorage.removeItem('token');
-        setLoggedIn(false);
-        setCurrentUser({})
-        history.push('/');
-    }
+  //поиск по сохраненным
+  function searchSavedMovies(keyword, isIncludesShort) {
+    const filteredSavedMovies = searchMovie(savedMovies, keyword, isIncludesShort);
 
-   return(
+    setSearchedSavedMovies(filteredSavedMovies);
+  };
+
+  //сохранение
+  function saveMovie(data) {
+    api.saveMovie(data, token)
+      .then((res) => {
+        setSavedMovies([...savedMovies, res]);
+        setSavedMoviesIds([...savedMoviesIds, res.movieId]);
+        setSearchedSavedMovies([...savedMovies, res]);
+      })
+      .catch(err => {
+        showError(err.message);
+      });
+  }
+
+  //удаление
+  function removeMovie(movieId) {
+    api.removeMovie(movieId, token)
+      .then((res) => {
+        console.log(res)
+        const filteredMovies = savedMovies.filter((movie) => movie.movieId !== res.movieId);
+        const filteredMoviesIds = savedMoviesIds.filter((id) => id !== res.movieId);
+
+        setSavedMovies(filteredMovies);
+        setSavedMoviesIds(filteredMoviesIds);
+        setSearchedSavedMovies(filteredMovies);
+      })
+      .catch(err => {
+      showError(err.message);
+    });
+  }
+
+  return (
     <CurrentUserContext.Provider value={currentUser}>
+      {isTokenChecked
+        && <Switch>
+          <Route exact path='/'>
+            <Main isLoggedIn={isLoggedIn} />
+          </Route>
 
-    { (loggedIn || location.pathname === '/') }
+          <Route path='/signin'>
+            <Login onLogin={onLogin} />
+          </Route>
 
-    <Switch>
-            <Route exact path='/'>
-                <Main />
-            </Route>
-            <Route path='/signin'>
-                <Login
-                    onLogin={onLogin}
-                />
-            </Route>
-            <Route path='/signup'>
-                <Register
-                    onRegister={onRegister}
-                />
-            </Route>
-            <Route path='/updateProfile'>
-                <Profile
-                    updProfile={updProfile}
-                    handleSignOutt={signOut}
-                />
-            </Route>
-            <Route path='/movies'>
-                <Movies />
-            </Route>
-            <Route path='/savedmovies'>
-                <SavedMovies />
-            </Route>
-            <Route path='/notfound'>
-                <NotFound />
-            </Route>
+          <Route path='/signup'>
+            <Register onRegister={onRegister} />
+          </Route>
+
+          <ProtectedRoute
+            path='/updateProfile'
+            component={Profile}
+            isLoggedIn={isLoggedIn}
+            updProfile={updProfile}
+            signOut={signOut}
+          />
+
+          <ProtectedRoute
+            path="/movies"
+            isLoggedIn={isLoggedIn}
+            component={Movies}
+            isFetched={isFetched}
+            isLoading={isLoading}
+            searchMovies={searchMovies}
+            movies={movies}
+            saveMovie={saveMovie}
+            removeMovie={removeMovie}
+            savedMoviesIds={savedMoviesIds}
+          />
+
+          <ProtectedRoute
+            path="/savedmovies"
+            isLoggedIn={isLoggedIn}
+            component={SavedMovies}
+            searchMovies={searchSavedMovies}
+            movies={searchedSavedMovies}
+            removeMovie={removeMovie}
+            savedMoviesIds={savedMoviesIds}
+          />
+
+          <Route path='*'>
+            <NotFound />
+          </Route>
         </Switch>
-
-        { (loggedIn || location.pathname === '/') }
-      </CurrentUserContext.Provider>
-
-   )
+      }
+      <InfoTooltip
+        image={image}
+        message={message}
+        isOpen={isInfoTooltipOpen}
+        setIsOpen={setIsInfoTooltipOpen}
+      />
+    </CurrentUserContext.Provider>
+  )
 }
 

@@ -1,10 +1,16 @@
 import React from 'react';
 
-export default function FilterCheckbox(props) {
+export default function FilterCheckbox({ name, text, onCheckboxChange }) {
+  const checked = React.useRef();
+
+  function handleChange(e) {
+    onCheckboxChange(checked.current.checked);
+  }
+
   return (
     <div className="filter-button__container">
-      <input type="checkbox" name={props.name} id={props.name} className="filter-button__input"/>
-      <label htmlFor={props.name} className="filter-button__text">{props.text}</label>
+      <input ref={checked} onChange={handleChange} type="checkbox" name={name} id={name} className="filter-button__input"/>
+      <label htmlFor={name} className="filter-button__text">{text}</label>
     </div>
   )
 }
