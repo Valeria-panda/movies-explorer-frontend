@@ -16,9 +16,8 @@ export default function SearchForm({ name, searchMovies }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     searchMovies(value, includesShort);
-    }
+  }
 
   return (
     <form name={name} className='search-form container' onSubmit={handleSubmit}>
