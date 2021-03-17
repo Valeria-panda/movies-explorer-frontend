@@ -7,20 +7,21 @@ import Techs from '../Techs/Techs';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import AuthNav from '../AuthNav/AuthNav';
+import HeaderNavigationMain from '../HeaderNavigationMain/HeaderNavigationMain';
 
-export default function Main(){
-    return(
-        <>
-            <Header>
-                <AuthNav />
-            </Header>
-            <Promo />
-            <AboutProject />
-            <Techs />
-            <AboutMe />
-            <Portfolio />
-            <Footer />
-        </>
-    )
+export default function Main({ isLoggedIn }){
+  return(
+    <>
+      <Header>
+        {isLoggedIn ? <HeaderNavigationMain /> : <AuthNav />}
+      </Header>
+      <Promo />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+      <Portfolio />
+      <Footer />
+    </>
+  )
 }
 

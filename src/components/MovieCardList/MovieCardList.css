@@ -8,6 +8,11 @@
   grid-row-gap: 59px;
   margin: 70px 0 0 0;
   list-style: none;
+  position: relative;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
 }
 @media (max-width: 768px) {
   .movie__container {

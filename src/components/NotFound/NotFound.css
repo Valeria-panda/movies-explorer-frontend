@@ -30,6 +30,8 @@
 .not-found__back {
   margin: 0;
   padding: 0;
+  background: transparent;
+  border: none;
   font-size: 17px;
   line-height: 1.2;
   font-weight: normal;
