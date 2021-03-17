@@ -1,10 +1,11 @@
 import React from 'react';
 
-export default function FilterCheckbox({ name, text, onCheckboxChange }) {
+export default function FilterCheckbox({ name, text, onCheckboxChange, setIncludesShort }) {
   const checked = React.useRef();
 
   function handleChange(e) {
-    onCheckboxChange(checked.current.checked);
+    setIncludesShort(e.target.checked)
+    onCheckboxChange(e.target.checked);
   }
 
   return (
